@@ -3,12 +3,9 @@ import {
   PageHeaderHeading,
 } from "@/components/PageHeader/PageHeader";
 import Container from "@/components/ui-system/Container";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import Link from "next/link";
 
-import { routeNames } from "@/config/routes";
 const Home = () => {
   return (
     <Container className="min-h-[40vh]">
@@ -24,77 +21,46 @@ const Home = () => {
         </div>
         <div className="text-center w-fit  m-auto">
           <ul className="flex flex-col gap-20">
-            <li className="flex flex-col gap-2">
-              <span className="text-4xl">Connect your wallet</span>
+            <li className="flex flex-col gap-2 items-center">
+              <span className="text-4xl">+500 holders</span>
               <Image
                 alt=""
-                src={"/gifs/connect-wallet.gif"}
+                src={"/images/GKUquLwXcAANVWQ.jpeg"}
                 width={800}
                 height={100}
                 className="overflow-hidden rounded-2xl"
               />
             </li>
-            <li className="flex flex-col gap-2">
-              <span className="text-4xl ">Connect your X account</span>
-              <Image
-                alt=""
-                src={"/gifs/connect-X-account.gif"}
-                width={800}
-                height={100}
-                className="overflow-hidden rounded-2xl"
-              />
-            </li>
-            <li className="flex flex-col gap-2">
-              <span className="text-4xl ">
-                Like, comment, retweet our posts
+            <li className="flex flex-col gap-2 items-center">
+              <span className="text-4xl ">Tokenomics</span>
+              <span className="text-primary">7,500,000,000 MOGE</span>
+              <span className="max-w-[80%]">
+                We consider token management with great responsibility. We are
+                pleased to inform you that we currently hold 430 million MOGE
+                tokens. Our approach to allocating these tokens is designed to
+                foster the growth and prosperity of our community.
               </span>
               <Image
                 alt=""
-                src={"/gifs/like-comment-retweet.gif"}
+                src={"/images/pksjdfi2q.png"}
                 width={800}
                 height={100}
                 className="overflow-hidden rounded-2xl"
               />
             </li>
-
-            <li className="flex flex-col gap-2">
-              <span className="text-4xl ">
-                Use at least one of our DeFi tools
+            <li className="flex flex-col gap-2 items-center">
+              <span className="text-4xl">
+                Together, we hold a bold vision for the future of MOGE.
               </span>
               <Image
                 alt=""
-                src={"/gifs/use-tools.png"}
+                src={"/images/GKS-cPkW0AIOc8U.jpeg"}
                 width={800}
                 height={100}
-                className="overflow-hidden rounded-2xl hidden dark:block"
-              />
-              <Image
-                alt=""
-                src={"/gifs/use-tools-black.png"}
-                width={800}
-                height={100}
-                className="overflow-hidden rounded-2xl block dark:hidden"
+                className="overflow-hidden rounded-2xl"
               />
             </li>
           </ul>
-        </div>
-
-        <div className="mt-10 flex justify-center">
-          <Button
-            className="flex gap-3 rounded-full px-7 w-fit text-xl h-fit"
-            asChild
-          >
-            <Link href={routeNames.rewards}>
-              {" "}
-              <Image
-                src={"/images/logo.jpg"}
-                alt=""
-                width={20}
-                height={20}
-              />{" "}
-              Start Earning Now
-            </Link>
-          </Button>
         </div>
       </div>
     </Container>

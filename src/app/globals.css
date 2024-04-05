@@ -93,7 +93,7 @@
 
 /* Custom clasess */
 .gradienteTitle {
-  background: linear-gradient(to right, red , rgb(255, 196, 0));
+  background: linear-gradient(to right, rgb(255, 251, 0) , rgb(80, 179, 0));
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
   background-clip:text;

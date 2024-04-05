@@ -4,7 +4,6 @@ import { Dot, Monitor, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
-import NewsletterForm from "../NewsletterForm/NewsletterForm";
 import Container from "../ui-system/Container";
 import { Button } from "../ui/button";
 
@@ -53,9 +52,6 @@ const Footer = () => {
   const { setTheme, theme } = useTheme();
   return (
     <>
-      <div className="flex items-center justify-center pt-20">
-        <NewsletterForm />
-      </div>
       <footer className=" ">
         <Container>
           <div className="mb-10">
