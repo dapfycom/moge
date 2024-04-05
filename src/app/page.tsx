@@ -1,5 +1,5 @@
-import HomeClient from "./home.client";
+import Home from "@/views/HomeView/Home";
 
 export default function HomePage() {
-  return <HomeClient />;
+  return <Home />;
 }
