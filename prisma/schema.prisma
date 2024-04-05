@@ -1,0 +1,168 @@
+generator client {
+  provider = "prisma-client-js"
+  seed     = "ts-node prisma/seed.ts"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+// Define the User model
+model User {
+  id                       String                     @id @default(uuid()) // Unique identifier for each user, generated as a UUID
+  address                  String                     @unique // Address of the user
+  purchases                Purchase[] // Relation to Purchase model, contains all purchases made by the user
+  createdAt                DateTime                   @default(now()) // Timestamp of when the user was created
+  purchaseAttempts         PurchaseAttempt[] // Relation to PurchaseAttempt model, contains all purchase attempts by the user
+  updatedAt                DateTime                   @updatedAt // Timestamp of the last update to this user record
+  xAccount                 XAcount?
+  rewards                  Reward[]
+  tickets                  Ticket[]
+  tradesilvania            TradesilvaniaPurchase[]
+  tradesilvaniaTransaction TradesilvaniaTransaction[]
+}
+
+// Define the Product model
+model Product {
+  id               String            @id @default(uuid()) // Unique identifier for each product, generated as a UUID
+  name             String            @unique // Name of the product, e.g., Bitcoin, Ethereum, BSK
+  stock            Int // Amount of tokens available
+  history          Purchase[] // Relation to Purchase model, contains all purchases made for this product
+  purchaseAttempts PurchaseAttempt[] // Relation to PurchaseAttempt model, contains all purchase attempts for this product
+}
+
+// Define the Purchase model
+model Purchase {
+  id        String   @id @default(uuid()) // Unique identifier for each purchase, generated as a UUID
+  user      User     @relation(fields: [userId], references: [id]) // Relation to User model, refers to the user who made the purchase
+  userId    String // User ID of the user who made the purchase
+  product   Product  @relation(fields: [productId], references: [id]) // Relation to Product model, refers to the product purchased
+  txHash    String
+  productId String // Product ID of the product purchased
+  quantity  Int // Quantity of product purchased
+  totalCost Float // Total cost of the purchase
+  createdAt DateTime @default(now()) // Timestamp of when the purchase was made
+}
+
+model PurchaseAttempt {
+  id           String   @id @default(uuid()) // Unique identifier for each purchase attempt, generated as a UUID
+  user         User     @relation(fields: [userId], references: [id]) // Relation to User model, refers to the user who made the attempt
+  userId       String
+  product      Product  @relation(fields: [productId], references: [id]) // Relation to Product model, refers to the product attempted to purchase
+  productId    String
+  attemptedAt  DateTime @default(now()) // Timestamp of when the purchase attempt was made
+  successful   Boolean // Indicates whether the purchase attempt was successful or not
+  amount       Float // Amount of tokens attempted to purchase
+  dollarAmount Float // User inputted dollar amount of tokens attempted to purchase
+  stripeId     String? // Stripe ID of the purchase attempt
+}
+
+model Wallet {
+  id            String @id @default(uuid()) // Unique identifier for each wallet, generated as a UUID
+  name          String @unique // Name of the wallet, e.g., Coinbase, Binance, Kraken
+  encryptedSeed String // Encrypted seed of the wallet
+}
+
+model Newsletter {
+  id    String @id @default(uuid())
+  email String @unique
+}
+
+model XAcount {
+  id                String   @id @default(uuid())
+  xid               String   @unique
+  username          String   @unique
+  name              String   @unique
+  profile_image_url String   @unique
+  user              User     @relation(fields: [userId], references: [id]) // Relation to User model, refers to the user who made the attempt
+  userId            String   @unique
+  updatedAt         DateTime @updatedAt // Timestamp of the last update to this user record
+
+  // Define the email report for rewards user with x account
+  rewardsEmailReports RewardsEmailReport[]
+}
+
+// Define the email report for rewards user with x account
+model RewardsEmailReport {
+  id         String  @id @default(uuid()) // Unique identifier for each email report, generated as a UUID
+  xAccount   XAcount @relation(fields: [xAccountId], references: [id]) // Relation to User model, refers to the user who made the
+  xAccountId String
+  email      String  @unique
+}
+
+model Reward {
+  id         String   @id @default(uuid())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  rewardedAt DateTime @default(now())
+  amount     Float?
+  coin       String
+}
+
+model Ticket {
+  id            String           @id @default(uuid())
+  user          User             @relation(fields: [userId], references: [id])
+  userId        String
+  responseEmail String
+  message       String
+  viewed        Boolean          @default(false)
+  replied       Boolean          @default(false)
+  status        String           @default("active")
+  labels        String[]
+  responses     TicketResponse[]
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+}
+
+model TicketResponse {
+  id        String   @id @default(uuid())
+  ticket    Ticket   @relation(fields: [ticketId], references: [id])
+  ticketId  String
+  message   String
+  status    String   @default("sent")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TradesilvaniaPurchase {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+}
+
+model TradesilvaniaTransaction {
+  id                 String   @id @default(uuid())
+  rampOrderId        String
+  status             String
+  orderType          String
+  assetFrom          String
+  amountFrom         Float
+  assetTo            String?
+  amountTo           Float?
+  user               User     @relation(fields: [userId], references: [id])
+  userId             String
+  networkTo          String
+  additionalTo       String?
+  payoutBlockchainId String?
+  paymentType        String?
+  createdAt          DateTime @default(now())
+}
+
+model BlackListRewards {
+  id         String   @id @default(uuid())
+  identifier String   @unique
+  createdAt  DateTime @default(now())
+}
+
+model UsersTasks {
+  id        String   @id @default(uuid())
+  xuserId   String   @unique
+  mention   String   @default("auto")
+  comment   String   @default("auto")
+  like      String   @default("auto")
+  rt        String   @default("auto")
+  updatedAt DateTime @updatedAt
+}
