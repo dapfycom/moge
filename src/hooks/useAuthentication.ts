@@ -3,7 +3,6 @@ import {
   selectIsLoginModal,
   selectUserAddress,
 } from "@/redux/dapp/dapp-slice";
-import { admins } from "@/views/AdminPanelView/data";
 import { useGetLoginInfo } from "@multiversx/sdk-dapp/hooks";
 import { logout } from "@multiversx/sdk-dapp/utils";
 import { useEffect } from "react";
@@ -34,8 +33,7 @@ const useAuthentication = () => {
     isLoggedIn,
     tokenLogin,
     address: currentAddress,
-    isAdmin:
-      process.env.NODE_ENV !== "production" || admins?.includes(currentAddress),
+    isAdmin: true,
     isLoginModal: isOpenLoginModal,
     handleConnect,
     handleDisconnect,
