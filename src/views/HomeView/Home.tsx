@@ -87,18 +87,10 @@ const Home = () => {
             <Link href={routeNames.rewards}>
               {" "}
               <Image
-                src={"/images/logo-black.png"}
+                src={"/images/logo.jpg"}
                 alt=""
                 width={20}
                 height={20}
-                className="hidden dark:block"
-              />{" "}
-              <Image
-                src={"/images/logo-white.png"}
-                alt=""
-                width={20}
-                height={20}
-                className="block dark:hidden"
               />{" "}
               Start Earning Now
             </Link>
