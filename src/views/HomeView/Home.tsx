@@ -22,7 +22,7 @@ const Home = () => {
         <div className="text-center w-fit  m-auto">
           <ul className="flex flex-col gap-20">
             <li className="flex flex-col gap-2 items-center">
-              <span className="text-4xl">+500 holders</span>
+              <span className="text-4xl">+500 Holders</span>
               <Image
                 alt=""
                 src={"/images/GKUquLwXcAANVWQ.jpeg"}
