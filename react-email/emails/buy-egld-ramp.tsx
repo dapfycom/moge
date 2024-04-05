@@ -86,7 +86,7 @@ export const BuyEgldRampEmail = ({
         </Text>
 
         <Section style={btnContainer}>
-          <Button pX={12} pY={12} style={button} href="https://dapfy.com">
+          <Button style={button} href="https://dapfy.com">
             Earn Rewards
           </Button>
         </Section>
