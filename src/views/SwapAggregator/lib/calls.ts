@@ -1,6 +1,6 @@
 import { selectedNetwork } from "@/config/network";
 import store from "@/redux/store";
-import { getSmartContractInteraction } from "@/services/sc";
+import { getSmartContractInteraction } from "@/services/sc/calls";
 import { SmartContractInteraction } from "@/services/sc/calls/transaction";
 import { AggregatorStep, SorSwap } from "@/types/ashswap.interface";
 import { getWspOfWrapedEgld } from "@/utils/functions/sc";

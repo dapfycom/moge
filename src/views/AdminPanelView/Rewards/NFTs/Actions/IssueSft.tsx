@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { getSmartContractInteraction } from "@/services/sc";
+import { getSmartContractInteraction } from "@/services/sc/calls";
 import { BytesValue } from "@multiversx/sdk-core/out";
 
 const IssueSft = () => {

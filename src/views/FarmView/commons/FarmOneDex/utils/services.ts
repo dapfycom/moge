@@ -1,4 +1,4 @@
-import { getSmartContractInteraction } from "@/services/sc";
+import { getSmartContractInteraction } from "@/services/sc/calls";
 import { fetchScSimpleData } from "@/services/sc/queries";
 import {
   IOnDexEntries,

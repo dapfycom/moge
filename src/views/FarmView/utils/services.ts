@@ -1,4 +1,4 @@
-import { getSmartContractInteraction } from "@/services/sc";
+import { getSmartContractInteraction } from "@/services/sc/calls";
 import { scQueryByFieldsDefinitions } from "@/services/sc/queries";
 import { IElrondToken } from "@/types/elrond.interface";
 import { IFarmInfo, IUserFarmInfo } from "@/types/farm.interface";

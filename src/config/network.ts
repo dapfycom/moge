@@ -112,6 +112,7 @@ const networkConfig = {
       wegld: "WEGLD-a28c59",
       bsk: "WEGLD-a28c59",
       ride: "RIDE-05b1bb",
+      moge: "RIDE-05b1bb",
       usdc: "USDC-350c4e",
       rare: "RIDE-6e4c49",
       utk: "UTK-14d57d",
@@ -198,6 +199,6 @@ const networkConfig = {
     },
   },
 };
-export const ENVIRONMENT: ENVIROMENTTYPE = "mainnet";
+export const ENVIRONMENT: ENVIROMENTTYPE = "devnet";
 
 export const selectedNetwork = networkConfig[ENVIRONMENT];

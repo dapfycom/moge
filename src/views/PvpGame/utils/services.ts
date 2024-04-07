@@ -1,6 +1,7 @@
+import { PROJECT_TOKEN } from "@/config";
 import { selectedNetwork } from "@/config/network";
 import { fetchTransactions } from "@/services/rest/elrond/transactions";
-import { getSmartContractInteraction } from "@/services/sc";
+import { getSmartContractInteraction } from "@/services/sc/calls";
 import { scQuery } from "@/services/sc/queries";
 import { Base64toString } from "@/utils/functions/sc";
 import {
@@ -9,7 +10,6 @@ import {
   BytesValue,
   U32Value,
 } from "@multiversx/sdk-core/out";
-import BigNumber from "bignumber.js";
 import { getCookie } from "cookies-next";
 import {
   adaptGame,
@@ -102,7 +102,9 @@ export const fetchGameById = async (gameId: number) => {
 export const fetchActiveGames = async () => {
   const res = await scQuery("pvpWsp", "getActiveGames");
 
-  return adaptGamesWithUserInfo(res?.firstValue?.valueOf());
+  return adaptGamesWithUserInfo(res?.firstValue?.valueOf())?.filter(
+    (game) => game.game?.token_identifier === PROJECT_TOKEN
+  );
 };
 
 export const fetchUserInfo = async (address: string) => {
@@ -114,8 +116,6 @@ export const fetchUserInfo = async (address: string) => {
 };
 
 export const fetchUserEarnings = async (address: string) => {
-  console.log({ address });
-
   const res = await scQuery("pvpWsp", "getUserEarnings", [
     new AddressValue(new Address(address)),
   ]);
@@ -131,23 +131,6 @@ export const fetchMinAmounts = async (): Promise<IGamePayment[]> => {
   );
 };
 
-export const fetchScStats = async () => {
-  const res = await scQuery("pvpWsp", "getStats");
-
-  const data = res?.firstValue?.valueOf();
-
-  return {
-    gamesPlayed: data.total_games.toNumber(),
-    volume: data.volume.map((vol: any) => {
-      return {
-        amount: vol.amount.toString(),
-        token: vol.token,
-      };
-    }),
-    total_users: data.total_users.toNumber(),
-  };
-};
-
 export const fetchGamesHistory = async (): Promise<IHistoryData[]> => {
   const transactions = await fetchTransactions({
     receiver: selectedNetwork.scAddress.pvp,
@@ -155,63 +138,41 @@ export const fetchGamesHistory = async (): Promise<IHistoryData[]> => {
     size: 50,
     status: "success",
     withScResults: true,
+    token: PROJECT_TOKEN,
   });
 
-  console.log({ transactions });
+  const finishedGames = await scQuery("pvpWsp", "getFinishedGames");
+
+  const parsedGames = adaptGamesWithUserInfo(
+    finishedGames.firstValue?.valueOf()
+  );
 
   const history: IHistoryData[] = transactions.map((tx) => {
     const dataHex = Base64toString(tx.data || "");
 
-    const parts = dataHex.split("@");
-    let challenger: IUserInHistory;
-    let creator: IUserInHistory;
+    let parts = dataHex.split("@");
+
     let gameId = 0;
-    let winner: IUserInHistory = {
-      address: Address.Zero().bech32(),
-      profile_url: "",
-      username: "",
-    };
-
-    if (parts.length !== 7) {
-      challenger = {
-        address: tx.sender,
-        profile_url: "",
-        username: "",
-      };
-
-      creator = {
-        address: Address.Zero().bech32(),
-        profile_url: "",
-        username: "",
-      };
-    } else {
-      challenger = {
-        address: tx.sender,
-        username: Buffer.from(parts[2], "hex").toString(),
-        profile_url: Buffer.from(parts[3], "hex").toString(),
-      };
-
-      creator = {
-        address: Address.fromHex(parts[4]).bech32(),
-        username: Buffer.from(parts[5], "hex").toString(),
-        profile_url: Buffer.from(parts[6], "hex").toString(),
-      };
-
-      gameId = parseInt(parts[1]);
-      const results = tx.results || [];
-      if (results.length > 0) {
-        const sortedResults = results.sort((a, b) =>
-          new BigNumber(b.value).minus(a.value).toNumber()
-        );
-        const winnerAddress = sortedResults[0].receiver;
-
-        if (winnerAddress === challenger.address) {
-          winner = challenger;
-        } else {
-          winner = creator;
-        }
-      }
+    const isEsdt = parts[0] === "ESDTTransfer";
+    if (isEsdt) {
+      parts = parts.slice(3);
     }
+    gameId = parseInt(parts[1], 16);
+
+    const game = parsedGames?.find((game) => game.game?.id === gameId);
+
+    const challenger: IUserInHistory = {
+      address: game?.game?.user_challenger || Address.Zero().bech32(),
+      profile_url: game?.user_challenger?.profile_url || "",
+      username: game?.user_challenger?.username || "",
+    };
+    const creator: IUserInHistory = {
+      address: game?.game?.user_creator || Address.Zero().bech32(),
+      profile_url: game?.user_creator?.profile_url || "",
+      username: game?.user_creator?.username || "",
+    };
+    const winner: IUserInHistory =
+      game?.game?.winner === game?.game?.user_creator ? creator : challenger;
 
     const data: IHistoryData = {
       challenger: challenger,

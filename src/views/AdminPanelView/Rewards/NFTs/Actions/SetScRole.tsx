@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { getSmartContractInteraction } from "@/services/sc";
+import { getSmartContractInteraction } from "@/services/sc/calls";
 const SetScRole = () => {
   const handleSetCreateRole = () => {
     getSmartContractInteraction("mintingStakingNftWsp").scCall({

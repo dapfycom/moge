@@ -34,6 +34,10 @@
       {
         "name": "min_amount_info",
         "type": "List<GamePayment>"
+      },
+      {
+        "name": "fee_wallet",
+        "type": "Address"
       }
     ],
     "outputs": []
@@ -130,13 +134,6 @@
       "outputs": []
     },
     {
-      "name": "claim_fee_rewards",
-      "onlyOwner": true,
-      "mutability": "mutable",
-      "inputs": [],
-      "outputs": []
-    },
-    {
       "name": "update_minimal_amount_info",
       "onlyOwner": true,
       "mutability": "mutable",
@@ -144,6 +141,30 @@
         {
           "name": "min_amount_info",
           "type": "List<GamePayment>"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "update_fee_wallet",
+      "onlyOwner": true,
+      "mutability": "mutable",
+      "inputs": [
+        {
+          "name": "fee_wallet",
+          "type": "Address"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "add_allowed_token",
+      "onlyOwner": true,
+      "mutability": "mutable",
+      "inputs": [
+        {
+          "name": "token",
+          "type": "EgldOrEsdtTokenIdentifier"
         }
       ],
       "outputs": []
@@ -181,7 +202,13 @@
     {
       "name": "getStats",
       "mutability": "readonly",
-      "inputs": [],
+      "inputs": [
+        {
+          "name": "token_identifier",
+          "type": "optional<EgldOrEsdtTokenIdentifier>",
+          "multi_arg": true
+        }
+      ],
       "outputs": [
         {
           "type": "GameStats"
@@ -266,13 +293,12 @@
       ]
     },
     {
-      "name": "getFeeRewards",
+      "name": "getFeeWallet",
       "mutability": "readonly",
       "inputs": [],
       "outputs": [
         {
-          "type": "variadic<GamePayment>",
-          "multi_result": true
+          "type": "Address"
         }
       ]
     },

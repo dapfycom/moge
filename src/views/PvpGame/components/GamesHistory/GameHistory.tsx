@@ -1,3 +1,5 @@
+"use client";
+
 import { useGetGamesHistory } from "../../utils/hooks";
 import HistoryTable from "../HistoryTable/HistoryTable";
 

@@ -1,45 +1,53 @@
+"use client";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   formatBalance,
   setElrondBalance,
 } from "@/utils/functions/formatBalance";
-import { useGetAccount } from "@multiversx/sdk-dapp/hooks";
 import { useFilterGames } from "../../utils/hooks";
 import Game from "./components/Game";
 
 import { Button } from "@/components/ui/button";
+import { PROJECT_TOKEN, filterAmount } from "@/config";
 import useDisclosure from "@/hooks/useDisclosure";
+import useGetAccountToken from "@/hooks/useGetAccountToken";
+import useGetElrondToken from "@/hooks/useGetElrondToken";
 import useGetXMinimalInfo from "@/hooks/useGetXMinimalInfo";
+import { formatTokenI } from "@/utils/functions/tokens";
 import { IGameWithUserInfo } from "@/views/PvpGame/utils/interface";
+import { Address } from "@multiversx/sdk-core/out";
 import { useTrackTransactionStatus } from "@multiversx/sdk-dapp/hooks";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { mutate } from "swr";
+import { joinGame } from "../../utils/services";
 import PendingModal from "./components/PendingModal";
 const ResultModal = dynamic(() => import("./components/ResultModal"));
 
 const ActiveGames = () => {
   const { games, handleFilter, filterOptions, isLoading, clearFilter } =
     useFilterGames();
-  const { balance } = useGetAccount();
+  const { accountToken } = useGetAccountToken(PROJECT_TOKEN);
 
   const [sessionId, setSessionId] = useState<string | null>("");
   const { user } = useGetXMinimalInfo();
   const [txData, setTxData] = useState("");
   const { isOpen, onOpen, onClose, setOpen } = useDisclosure();
-
+  const { elrondToken: tokenDetails } = useGetElrondToken(PROJECT_TOKEN);
   const handleJoinGame = async (game: IGameWithUserInfo) => {
-    // const res = await joinGame(
-    //   game.game?.id!,
-    //   game.game?.amount!,
-    //   user?.username,
-    //   user?.profile_image_url,
-    //   game.game?.user_creator || Address.Zero().bech32(),
-    //   game.user_creator?.username || "",
-    //   game.user_creator?.profile_url || ""
-    // );
-    // setSessionId(res?.sessionId);
-    // onOpen();
+    const res = await joinGame(
+      game.game?.id!,
+      game.game?.amount!,
+      user?.username,
+      user?.profile_image_url,
+      game.game?.user_creator || Address.Zero().bech32(),
+      game.user_creator?.username || "",
+      game.user_creator?.profile_url || "",
+      tokenDetails.identifier,
+      tokenDetails.decimals
+    );
+    setSessionId(res?.sessionId);
+    onOpen();
   };
 
   const onSuccess = () => {
@@ -82,10 +90,7 @@ const ActiveGames = () => {
         <div>
           Balance :{" "}
           <span className="text-green-500">
-            {formatBalance({
-              balance: balance,
-            })}{" "}
-            MOGE
+            {formatBalance(accountToken)} {formatTokenI(PROJECT_TOKEN)}
           </span>
         </div>
       </div>
@@ -108,20 +113,32 @@ const ActiveGames = () => {
                   filterOptions?.name === "bigger" ? "secondary" : "outline"
                 }
                 onClick={() =>
-                  handleFilter("bigger", setElrondBalance(1), "MOGE")
+                  handleFilter(
+                    "bigger",
+                    setElrondBalance(filterAmount, tokenDetails.decimals),
+                    tokenDetails.identifier
+                  )
                 }
               >
-                {"> 1 MOGE"}
+                {`> ${filterAmount.toLocaleString()} ${formatTokenI(
+                  PROJECT_TOKEN
+                )}`}
               </Button>
               <Button
                 variant={
                   filterOptions?.name === "smaller" ? "secondary" : "outline"
                 }
                 onClick={() =>
-                  handleFilter("smaller", setElrondBalance(1), "MOGE")
+                  handleFilter(
+                    "smaller",
+                    setElrondBalance(filterAmount, tokenDetails.decimals),
+                    tokenDetails.identifier
+                  )
                 }
               >
-                {"< 1 MOGE"}
+                {`< ${filterAmount.toLocaleString()} ${formatTokenI(
+                  PROJECT_TOKEN
+                )}`}
               </Button>
             </div>
 

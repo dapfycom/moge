@@ -1,4 +1,4 @@
-import { getSmartContractInteraction } from "@/services/sc";
+import { getSmartContractInteraction } from "@/services/sc/calls";
 import { SmartContractInteraction } from "@/services/sc/calls/transaction";
 import { scQuery } from "@/services/sc/queries";
 import { IElrondToken } from "@/types/elrond.interface";

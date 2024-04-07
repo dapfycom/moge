@@ -1,5 +1,5 @@
 import axiosDapfy from "@/services/rest/dapfy-api";
-import { getSmartContractInteraction } from "@/services/sc";
+import { getSmartContractInteraction } from "@/services/sc/calls";
 import { scQuery } from "@/services/sc/queries";
 import { IUserX } from "@/types/rewards.interface";
 import { Address } from "@multiversx/sdk-core/out";

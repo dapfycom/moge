@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { getSmartContractInteraction } from "@/services/sc";
+import { getSmartContractInteraction } from "@/services/sc/calls";
 import { Address, AddressValue } from "@multiversx/sdk-core/out";
 import { useContext } from "react";
 import { FarmContext } from "../FarmItem";

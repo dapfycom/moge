@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import useGetMultipleElrondTokens from "@/hooks/useGetMultipleElrondTokens";
-import { getSmartContractInteraction } from "@/services/sc";
+import { getSmartContractInteraction } from "@/services/sc/calls";
 import { formatBalance } from "@/utils/functions/formatBalance";
 import { useGetNftsStakedInfo, useGetUserInfo } from "../../lib/nfts-hooks";
 

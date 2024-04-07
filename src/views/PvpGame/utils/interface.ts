@@ -74,3 +74,9 @@ export interface IGamePayment {
   amount: string;
   token_identifier: string;
 }
+
+export interface IStats {
+  gamesPlayed: number;
+  volume: Array<{ amount: string; token: string }>;
+  total_users: number;
+}

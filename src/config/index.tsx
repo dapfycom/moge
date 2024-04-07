@@ -98,3 +98,8 @@ export const homeSections = [
     img: `${IMAGES_ROOT}/home3.png`,
   },
 ];
+
+// PLAY CONFIG
+export const betAmounts = [0.1, 0.2, 0.5, 1, 2, 5];
+
+export const filterAmount = 1;

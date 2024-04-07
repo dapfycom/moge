@@ -9,24 +9,27 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PROJECT_TOKEN, betAmounts } from "@/config";
 import useDisclosure from "@/hooks/useDisclosure";
 import useGetAccountToken from "@/hooks/useGetAccountToken";
 import useGetElrondToken from "@/hooks/useGetElrondToken";
 import useGetXMinimalInfo from "@/hooks/useGetXMinimalInfo";
 import { formatBalance, getRealBalance } from "@/utils/functions/formatBalance";
+import { formatTokenI } from "@/utils/functions/tokens";
 import { useTrackTransactionStatus } from "@multiversx/sdk-dapp/hooks";
 import { useFormik } from "formik";
 import React, { MouseEvent } from "react";
 import { mutate } from "swr";
 import * as yup from "yup";
 import { useGetMinimalAmount } from "../../utils/hooks";
+import { createGame } from "../../utils/services";
 
 const CreateGame = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { user } = useGetXMinimalInfo();
   const [sessionId, setSessionId] = React.useState<string | null>("");
-  const { accountToken } = useGetAccountToken("EGLD");
-  const { minAmount } = useGetMinimalAmount("EGLD");
+  const { accountToken } = useGetAccountToken(PROJECT_TOKEN);
+  const { minAmount } = useGetMinimalAmount(PROJECT_TOKEN);
   const { elrondToken } = useGetElrondToken(
     minAmount?.token_identifier || null
   );
@@ -35,13 +38,15 @@ const CreateGame = () => {
       amount: "",
     },
     onSubmit: async (values) => {
-      // const res = await createGame(
-      //   Number(values.amount),
-      //   user?.username,
-      //   user?.profile_image_url
-      // );
-      // setSessionId(res?.sessionId);
-      // onClose();
+      const res = await createGame(
+        Number(values.amount),
+        user?.username,
+        user?.profile_image_url,
+        accountToken.identifier,
+        accountToken.decimals
+      );
+      setSessionId(res?.sessionId);
+      onClose();
     },
 
     validationSchema: yup.object().shape({
@@ -79,7 +84,7 @@ const CreateGame = () => {
   });
   const handleSetAmount = (
     e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
-    value: string
+    value: number
   ) => {
     e.preventDefault();
     formik.setFieldValue("amount", value);
@@ -100,7 +105,7 @@ const CreateGame = () => {
             <DialogHeader>
               <DialogTitle>Create Game</DialogTitle>
               <DialogDescription>
-                Play with others users and earn EGLD
+                Play with others users and earn {formatTokenI(PROJECT_TOKEN)}
               </DialogDescription>
             </DialogHeader>
 
@@ -108,7 +113,9 @@ const CreateGame = () => {
               <div className="flex flex-col  gap-2">
                 <div className="flex w-full justify-between">
                   <Label htmlFor="amount">Amount</Label>
-                  <div>{formatBalance(accountToken)} MOGE</div>
+                  <div>
+                    {formatBalance(accountToken)} {formatTokenI(PROJECT_TOKEN)}
+                  </div>
                 </div>
                 <Input
                   id="amount"
@@ -122,45 +129,15 @@ const CreateGame = () => {
 
             <p className="text-red-500 text-sm mt-2">{formik.errors.amount}</p>
             <div className="flex flex-wrap gap-3 justify-center mt-4">
-              <Button
-                variant={"secondary"}
-                onClick={(e) => handleSetAmount(e, "0.01")}
-              >
-                100,000,000
-              </Button>
-              <Button
-                variant={"secondary"}
-                onClick={(e) => handleSetAmount(e, "0.1")}
-              >
-                100,000,000
-              </Button>
-
-              <Button
-                variant={"secondary"}
-                onClick={(e) => handleSetAmount(e, "0.5")}
-              >
-                500,000,000
-              </Button>
-              <Button
-                variant={"secondary"}
-                onClick={(e) => handleSetAmount(e, "1")}
-              >
-                100,000,000
-              </Button>
-
-              <Button
-                variant={"secondary"}
-                onClick={(e) => handleSetAmount(e, "2")}
-              >
-                200,000,000
-              </Button>
-
-              <Button
-                variant={"secondary"}
-                onClick={(e) => handleSetAmount(e, "5")}
-              >
-                500,000,000
-              </Button>
+              {betAmounts.map((amount) => (
+                <Button
+                  key={amount}
+                  variant={"secondary"}
+                  onClick={(e) => handleSetAmount(e, amount)}
+                >
+                  {amount.toLocaleString()}
+                </Button>
+              ))}
             </div>
 
             <Button type="submit" className="w-full mt-4">

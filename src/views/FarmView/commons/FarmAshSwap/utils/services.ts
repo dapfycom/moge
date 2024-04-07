@@ -1,5 +1,5 @@
 import { ENVIRONMENT, selectedNetwork } from "@/config/network";
-import { getSmartContractInteraction } from "@/services/sc";
+import { getSmartContractInteraction } from "@/services/sc/calls";
 import { fetchScSimpleData } from "@/services/sc/queries";
 import { IElrondAccountToken } from "@/types/elrond.interface";
 import {

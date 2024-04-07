@@ -1,4 +1,4 @@
-import { getSmartContractInteraction } from "@/services/sc";
+import { getSmartContractInteraction } from "@/services/sc/calls";
 import { IElrondToken } from "@/types/elrond.interface";
 import { BooleanValue } from "@multiversx/sdk-core/out";
 export const flipCoin = async (

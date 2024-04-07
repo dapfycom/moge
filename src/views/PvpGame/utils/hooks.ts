@@ -3,11 +3,12 @@ import { selectUserAddress } from "@/redux/dapp/dapp-slice";
 import BigNumber from "bignumber.js";
 import { useState } from "react";
 import useSWR from "swr";
+import { IStats } from "./interface";
+import { fetchScStats } from "./server-services";
 import {
   fetchActiveGames,
   fetchGamesHistory,
   fetchMinAmounts,
-  fetchScStats,
   fetchUserEarnings,
 } from "./services";
 export const useGetActiveGames = () => {
@@ -32,11 +33,10 @@ export const useGetActiveGames = () => {
 };
 
 export const useStatsGAmes = () => {
-  const { data, error, isLoading } = useSWR<{
-    gamesPlayed: number;
-    volume: { token: string; amount: number }[];
-    total_users: number;
-  }>("pvpWsp:getStats", fetchScStats);
+  const { data, error, isLoading } = useSWR<IStats>(
+    "pvpWsp:getStats",
+    fetchScStats
+  );
 
   return {
     stats: data || {

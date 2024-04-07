@@ -16,7 +16,7 @@ import {
   setIsWrapEgldOpen,
 } from "@/redux/dapp/dapp-slice";
 import store from "@/redux/store";
-import { getSmartContractInteraction } from "@/services/sc";
+import { getSmartContractInteraction } from "@/services/sc/calls";
 import {
   formatBalance,
   setElrondBalance,
