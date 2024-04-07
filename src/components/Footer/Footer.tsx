@@ -52,7 +52,7 @@ const Footer = () => {
   const { setTheme, theme } = useTheme();
   return (
     <>
-      <footer className=" ">
+      <footer className="mt-16">
         <Container>
           <div className="mb-10">
             <div className="flex flex-wrap justify-between gap-10">
