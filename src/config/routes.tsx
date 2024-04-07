@@ -24,40 +24,12 @@ import { SendIcon, Table2 } from "lucide-react";
 export const routeNames = {
   home: "/",
   rewards: "/multiversx/rewards",
-  swap: "/swap",
-  swapLp: "/swapLp",
-
-  // play: "/play",
-  // coinFlip: "/play/coin-flip",
-  // forge: "/the-forge",
-  farm: "/multiversx/farm",
-  stake: "/multiversx/stake",
   play: "/multiversx/play",
   pvp: "/multiversx/pvp",
   dust: "/multiversx/dust",
   aggregator: "/multiversx/aggregator",
-  defi: "/multiversx/defi",
-  tools: "/multiversx/tools",
-  herotag: "/multiversx/tools/herotag",
-  xfees: "/multiversx/tools/x-fees",
-  xstkRewards: "/multiversx/tools/staking-providers-rewards",
-  xpayments: "/multiversx/tools/x-payments",
-  raffle: "/multiversx/tools/raffle",
-
-  docs: "/docs",
-  blog: "/blog",
   admin: "/admin",
   help: "/help",
-  // upgrade: "/multiversx/upgrade",
-
-  assets: "/dapfy-assets.zip",
-  // internals
-  about: "/about",
-  sustainability: "/sustainability",
-  sales: "/sales",
-  security: "/security",
-  terms: "/terms-of-use",
-  openSource: "/open-source",
 };
 
 export const externnalLinks = {

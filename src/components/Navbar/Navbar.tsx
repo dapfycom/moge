@@ -5,6 +5,7 @@ import EpochCountDown from "@/components/EpochCountDown/EpochCountDown";
 import MainNav from "@/components/MainNav/MainNav";
 import NavbarActions from "@/components/NavActions/NavActions";
 import Container from "@/components/ui-system/Container";
+import { logoSrc } from "@/config";
 import { adminRoutes, routeNames } from "@/config/routes";
 import useBuyFromTradesilvania from "@/hooks/useBuyFromTradesilvania";
 import useScrolled from "@/hooks/useScrolled";
@@ -37,9 +38,7 @@ const Navbar = () => {
             <Link href={routeNames.home} className="ml-[-10px] flex gap-x-2">
               <p className="font-bold text-4xl">
                 <Image
-                  src={
-                    "https://media.elrond.com/tokens/asset/MOGE-3aadc7/logo.svg"
-                  }
+                  src={logoSrc}
                   alt="logo"
                   width={60}
                   height={60}
