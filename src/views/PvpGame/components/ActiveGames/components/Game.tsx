@@ -1,10 +1,12 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { PROJECT_TOKEN } from "@/config";
 import { useAppSelector } from "@/hooks/useRedux";
 import { selectUserAddress } from "@/redux/dapp/dapp-slice";
 import { formatAddress } from "@/utils/functions/formatAddress";
 import { getRealBalance } from "@/utils/functions/formatBalance";
 import { copyTextToClipboard } from "@/utils/functions/general";
+import { formatTokenI } from "@/utils/functions/tokens";
 import { IGameWithUserInfo } from "@/views/PvpGame/utils/interface";
 interface IProps {
   game: IGameWithUserInfo;
@@ -48,7 +50,8 @@ const Game = ({ game, handleJoinGame }: IProps) => {
           onClick={handleJoinGame}
           disabled={address === game.game?.user_creator}
         >
-          ⚔️ Battle for {getRealBalance(game.game?.amount).toString()} MOGE
+          ⚔️ Battle for {getRealBalance(game.game?.amount).toString()}{" "}
+          {formatTokenI(PROJECT_TOKEN)}
         </Button>
       </div>
     </>
