@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import useGetMultipleElrondTokens from "@/hooks/useGetMultipleElrondTokens";
-import { getSmartContractInteraction } from "@/services/sc";
+import { getSmartContractInteraction } from "@/services/sc/calls";
 import { fetchScSimpleData } from "@/services/sc/queries";
 import { formatBalance } from "@/utils/functions/formatBalance";
 import { formatTokenI } from "@/utils/functions/tokens";

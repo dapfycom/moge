@@ -1,11 +1,7 @@
 import adminTicketReducer from "@/views/AdminPanelView/Tickets/adminTicketsSlice";
-import coinFlipReducer from "@/views/CoinFlipView/lib/con-flip-slice";
-import defiReducer from "@/views/DefiView/utils/defi-slice";
 import dustReducer from "@/views/DustView/lib/dust-slice";
 import rewardsReducer from "@/views/RewardsView/lib/rewards-slice";
 import swapAggregatorReducer from "@/views/SwapAggregator/lib/swap-slice";
-import swapReducer from "@/views/SwapView/lib/swap-slice";
-import swapLpReducer from "@/views/SwapView/lib/swapLp-slice";
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import dappReducer from "./dapp/dapp-slice";
@@ -13,12 +9,8 @@ export function makeStore() {
   return configureStore({
     reducer: {
       dapp: dappReducer,
-      swap: swapReducer,
-      swapLp: swapLpReducer,
-      coinFlip: coinFlipReducer,
       dust: dustReducer,
       swapAggregator: swapAggregatorReducer,
-      defi: defiReducer,
       adminTicket: adminTicketReducer,
       rewards: rewardsReducer,
     },
