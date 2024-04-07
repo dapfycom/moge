@@ -22,7 +22,7 @@ import { SendIcon, Table2 } from "lucide-react";
 // const DustView = React.lazy(() => import("views/DustView/DustView"));
 
 export const routeNames = {
-  home: "/multiversx/rewards",
+  home: "/",
   rewards: "/multiversx/rewards",
   swap: "/swap",
   swapLp: "/swapLp",
