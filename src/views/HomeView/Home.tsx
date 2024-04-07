@@ -28,7 +28,7 @@ const Home = () => {
                 src={"/images/GKUquLwXcAANVWQ.jpeg"}
                 width={800}
                 height={100}
-                className="overflow-hidden rounded-2xl"
+                className="overflow-hidden rounded-2xl aspect-square"
               />
             </li>
             <li className="flex flex-col gap-2 items-center">
